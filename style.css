@@ -1,0 +1,186 @@
+/* --- CSS Variables: The Terminal Palette --- */
+:root {
+  --terminal-bg: #050a0e;
+  --terminal-text: #00ff41;
+  /* Classic CRT green */
+  --text-dim: #008a23;
+  --prompt-user: #88d3f5;
+  /* User@host color */
+  --prompt-symbol: #f59888;
+  /* $ symbol color */
+  --link-color: #00ffff;
+  /* Cyan for links */
+}
+
+/* --- Global Setup & CRT Screen Effect --- */
+@keyframes blink {
+  50% {
+    background-color: transparent;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Fira Code', monospace;
+  /* The quintessential dev font */
+  font-size: 16px;
+  color: var(--terminal-text);
+  background-color: var(--terminal-bg);
+  line-height: 1.7;
+  margin: 0;
+  padding: 20px;
+  /* Subtle scanline effect for that retro monitor feel */
+  background-image: repeating-linear-gradient(0deg,
+      rgba(0, 0, 0, 0.3),
+      rgba(0, 0, 0, 0.3) 1px,
+      transparent 1px,
+      transparent 3px);
+}
+
+/* --- Typography & "Syntax" --- */
+h1,
+h3 {
+  font-family: 'Fira Code', monospace;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2.2rem;
+  color: white;
+  text-shadow: 0 0 10px var(--terminal-text);
+  margin-bottom: 0.5em;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid var(--text-dim);
+}
+
+h3 {
+  font-size: 1.2rem;
+  color: var(--terminal-text);
+  margin: 0.2em 0;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+a:hover {
+  background-color: var(--text-dim);
+  color: white;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--text-dim);
+  margin: 2em 0;
+}
+
+/* --- Layout: The "Terminal Window" --- */
+/* The main table acts as our terminal window */
+body>table {
+  max-width: 1200px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 2px solid var(--text-dim);
+  padding: 20px;
+  margin: 0 auto;
+  border-radius: 4px;
+  box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
+}
+
+/* --- Navigation Bar as a "help" command --- */
+#home+h3+h3+td {
+  text-align: center;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+/* --- Section Headers as Command Prompts --- */
+p>b[id] {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 2em 0 1em 0;
+}
+
+/* Use pseudo-elements to create the prompt effect */
+p>b[id]::before {
+  content: 'student@iiit-hyd:~$ ';
+  color: var(--prompt-user);
+}
+
+/* The blinking cursor after the command */
+p>b[id]::after {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  width: 10px;
+  height: 1.2em;
+  background-color: var(--terminal-text);
+  margin-left: 8px;
+  animation: blink 1s step-end infinite;
+}
+
+/* --- Lists as Command Output --- */
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+li {
+  position: relative;
+  padding-left: 2em;
+  margin-bottom: 8px;
+}
+
+li::before {
+  content: '>';
+  position: absolute;
+  left: 0;
+  color: var(--text-dim);
+}
+
+/* --- ASCII-style Data Tables --- */
+table[border="1"] {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5em;
+  border: 1px solid var(--text-dim);
+}
+
+table[border="1"] th,
+table[border="1"] td {
+  padding: 10px;
+  border: 1px solid var(--text-dim);
+  text-align: left;
+}
+
+table[border="1"] th {
+  background-color: rgba(0, 255, 65, 0.1);
+  color: white;
+}
+
+/* Gray out the past/completed rows */
+.light-text-row {
+  color: var(--text-dim);
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.light-text-row a {
+  color: inherit;
+}
+
+/* --- Footer & Final Prompt --- */
+#txt {
+  margin-top: 1.5em;
+}
+
+/* Target the footer tables */
+table[border="0"] {
+  text-align: center;
+  color: var(--text-dim);
+}
